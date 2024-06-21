@@ -3,16 +3,16 @@ import { Card, Form, Input, Button, message } from "antd";
 import logo from "@/assets/logo.png";
 import { useDispatch } from "react-redux";
 import { fetchLogin } from "@/store/modules/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
-  const Navigate = useNavigate();
-  const onFinish = (values) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const onFinish = async (values) => {
     // 触发异步action fetchlogin
-    dispatch(fetchLogin(values));
+    await dispatch(fetchLogin(values));
     // 跳转到首页
-    Navigate("/");
+    navigate("/");
+    // 提示用户
     message.success("登录成功");
   };
   return (

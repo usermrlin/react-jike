@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { request } from "@/utils/request";
-import { setToken as _setToken, getToken,removeToken } from "@/utils";
+import { setToken as _setToken, getToken,removeToken } from "@/utils/index";
 const userStore = createSlice({
   name: "user",
   // 数据状态
