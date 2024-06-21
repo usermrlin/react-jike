@@ -4,7 +4,7 @@ import Login from '@/pages/Login'
 import {AuthRoute} from '@/components/AuthRoute'
 import Home from '@/pages/Home'
 import Article from '@/pages/Article'
-import Publish from '../pages/Publish'
+import Publish from '@/pages/Publish'
 const router = createBrowserRouter([
   {
     path:'/',

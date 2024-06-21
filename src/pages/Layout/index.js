@@ -7,7 +7,9 @@ import {
 } from "@ant-design/icons";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./index.scss";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserInfo } from "@/store/modules/user";
 const { Header, Sider } = Layout;
 
 const items = [
@@ -29,22 +31,30 @@ const items = [
 ];
 
 const GeekLayout = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onMenuClick = (route) => {
     console.log(route);
-    const path = route.key
-    navigate(path)
-  }
+    const path = route.key;
+    navigate(path);
+  };
   // 获取当前路由路径
-  const location = useLocation()
-  const selectedKeys = location.pathname
+  const location = useLocation();
+  const selectedKeys = location.pathname;
   console.log(location.pathname);
+
+  // 触发个人用户信息action
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserInfo())
+  }, [dispatch]);
+
+  const name = useSelector(state =>state.user.userInfo.name)
   return (
     <Layout>
       <Header className="header">
         <div className="logo" />
         <div className="user-info">
-          <span className="user-name"></span>
+          <span className="user-name">{name}</span>
           <span className="user-logout">
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
               <LogoutOutlined /> 退出
