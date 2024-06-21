@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { getToken } from "./token";
 const request = axios.create({
   // 配置统一URL路径
   baseURL: "http://geek.itheima.net/v1_0",
@@ -10,6 +10,11 @@ const request = axios.create({
 // 在请求发送之前
 request.interceptors.request.use(
   (config) => {
+    // 获取到token 携带请求头
+    const token = getToken()
+    if(token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config;
   },
   (error) => {
