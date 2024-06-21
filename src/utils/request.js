@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken, removeToken } from "./token";
 const request = axios.create({
   // 配置统一URL路径
-  baseURL: "http://geek.itheima.net/v1_0",
+  baseURL: "http://geek.itheima.net/v1_0/",
   timeout: 5000,
 });
 

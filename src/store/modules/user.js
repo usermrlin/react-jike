@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { request } from "@/utils/request";
-import { setToken as _setToken, getToken,removeToken } from "@/utils/index";
+import { setToken as _setToken, getToken, removeToken } from "@/utils/index";
+import { login, getUserInfo } from "@/apis/user";
 const userStore = createSlice({
   name: "user",
   // 数据状态
@@ -18,16 +18,16 @@ const userStore = createSlice({
     setUserInfo(state, action) {
       state.userInfo = action.payload;
     },
-    clearUserInfo(state){
-      state.token = ''
-      state.userInfo = {}
-      removeToken()
-    }
+    clearUserInfo(state) {
+      state.token = "";
+      state.userInfo = {};
+      removeToken();
+    },
   },
 });
 
 // 解构出actionCreater
-const { setToken, setUserInfo,clearUserInfo } = userStore.actions;
+const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 // 获取reducer函数
 const userReducer = userStore.reducer;
@@ -36,7 +36,7 @@ const userReducer = userStore.reducer;
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
     // 发送异步请求
-    const res = await request.post("/authorizations", loginForm);
+    const res = await login(loginForm);
     // 提交同步action进行token的存入
     dispatch(setToken(res.data.token));
   };
@@ -44,10 +44,10 @@ const fetchLogin = (loginForm) => {
 // 获取个人用户信息异步方法
 const fetchUserInfo = () => {
   return async (dispatch) => {
-    const res = await request.get('/user/profile')
-    dispatch(setUserInfo(res.data))
+    const res = await getUserInfo();
+    dispatch(setUserInfo(res.data));
   };
 };
-export { fetchLogin, fetchUserInfo,clearUserInfo, setToken };
+export { fetchLogin, fetchUserInfo, clearUserInfo, setToken };
 
 export default userReducer;
