@@ -36,14 +36,15 @@ const Publish = () => {
   // 提交表单
   const onFinish = (formValue) => {
     console.log(formValue);
+    if(imageList !== imageType) return message.warning('封面类型和图片不匹配')
     const { title, content, channel_id } = formValue;
     // 按照接口文档处理收集的表单数据
     const reqData = {
       title,
       content,
       cover: {
-        type: 0,
-        images: [],
+        type: imageType, // 封面类型
+        images: imageList.map(item => item.response.data.url), // 图片列表
       },
       channel_id,
     };
