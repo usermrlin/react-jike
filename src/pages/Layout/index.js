@@ -5,7 +5,7 @@ import {
   EditOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./index.scss";
 
 const { Header, Sider } = Layout;
@@ -35,6 +35,10 @@ const GeekLayout = () => {
     const path = route.key
     navigate(path)
   }
+  // 获取当前路由路径
+  const location = useLocation()
+  const selectedKeys = location.pathname
+  console.log(location.pathname);
   return (
     <Layout>
       <Header className="header">
@@ -52,6 +56,7 @@ const GeekLayout = () => {
         <Sider width={200} className="site-layout-background">
           <Menu
             mode="inline"
+            selectedKeys={selectedKeys}
             theme="dark"
             items={items}
             style={{ height: "100%", borderRight: 0 }}
