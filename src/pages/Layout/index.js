@@ -1,34 +1,34 @@
-import { Layout, Menu, Popconfirm } from 'antd'
+import { Layout, Menu, Popconfirm } from "antd";
 import {
   HomeOutlined,
   DiffOutlined,
   EditOutlined,
   LogoutOutlined,
-} from '@ant-design/icons'
-import './index.scss'
+} from "@ant-design/icons";
+import { Outlet } from "react-router-dom";
+import "./index.scss";
 
-const { Header, Sider } = Layout
+const { Header, Sider } = Layout;
 
 const items = [
   {
-    label: '首页',
-    key: '/',
+    label: "首页",
+    key: "/",
     icon: <HomeOutlined />,
   },
   {
-    label: '文章管理',
-    key: '/article',
+    label: "文章管理",
+    key: "/article",
     icon: <DiffOutlined />,
   },
   {
-    label: '创建文章',
-    key: '/publish',
+    label: "创建文章",
+    key: "/publish",
     icon: <EditOutlined />,
   },
-]
+];
 
 const GeekLayout = () => {
-
   return (
     <Layout>
       <Header className="header">
@@ -48,14 +48,15 @@ const GeekLayout = () => {
             mode="inline"
             theme="dark"
             items={items}
-            style={{ height: '100%', borderRight: 0 }}></Menu>
+            style={{ height: "100%", borderRight: 0 }}
+          ></Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
           {/* 二级路由的出口 */}
-          {/* <Outlet /> */}
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>
-  )
-}
-export default GeekLayout
+  );
+};
+export default GeekLayout;
