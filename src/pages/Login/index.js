@@ -1,11 +1,20 @@
-import './index.scss'
-import { Card, Form, Input, Button} from 'antd'
-import logo from '@/assets/logo.png'
-
+import "./index.scss";
+import { Card, Form, Input, Button, message } from "antd";
+import logo from "@/assets/logo.png";
+import { useDispatch } from "react-redux";
+import { fetchLogin } from "@/store/modules/user";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
-    const onFinish = (value) => {
-        console.log(value);
-    }
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+  const onFinish = (values) => {
+    console.log(values);
+    // 触发异步action fetchlogin
+    dispatch(fetchLogin(values));
+    // 跳转到首页
+    Navigate("/");
+    message.success("登录成功");
+  };
   return (
     <div className="login">
       <Card className="login-container">
@@ -18,13 +27,14 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: '请输入手机号',
+                message: "请输入手机号",
               },
               {
                 pattern: /^1[3-9]\d{9}$/,
-                message: '请输入正确的手机号格式'
-              }
-            ]}>
+                message: "请输入正确的手机号格式",
+              },
+            ]}
+          >
             <Input size="large" placeholder="请输入手机号" />
           </Form.Item>
           <Form.Item
@@ -32,9 +42,10 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: '请输入验证码',
+                message: "请输入验证码",
               },
-            ]}>
+            ]}
+          >
             <Input size="large" placeholder="请输入验证码" />
           </Form.Item>
           <Form.Item>
@@ -45,7 +56,7 @@ const Login = () => {
         </Form>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
