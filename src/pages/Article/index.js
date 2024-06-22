@@ -17,7 +17,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from "@/assets/error.png";
 import { useChannel } from "@/hooks/useChannel";
 import { useEffect, useState } from "react";
-import { getArticleAPI } from "@/apis/article";
+import { getArticleAPI, delArticleAPI } from "@/apis/article";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -78,6 +78,7 @@ const Article = () => {
               description="确认要删除当前文章吗?"
               okText="Yes"
               cancelText="No"
+              onConfirm={() => onConfirm(data)}
             >
               <Button
                 type="primary"
@@ -135,6 +136,14 @@ const Article = () => {
     });
   };
 
+  // 删除
+  const onConfirm = async (data) => {
+    console.log(data);
+    await delArticleAPI(data.id);
+    setReqData({
+      ...reqData,
+    });
+  };
   return (
     <div>
       <Card
@@ -185,8 +194,11 @@ const Article = () => {
           rowKey="id"
           columns={columns}
           dataSource={list}
-          pagination={{ total: count, pageSize: reqData.per_page,onChange:onPageChange }}
-
+          pagination={{
+            total: count,
+            pageSize: reqData.per_page,
+            onChange: onPageChange,
+          }}
         />
       </Card>
     </div>
