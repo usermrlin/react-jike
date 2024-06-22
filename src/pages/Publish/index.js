@@ -15,28 +15,18 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useEffect, useState } from "react";
-import { getChannelAPI, createArticleAPI } from "@/apis/article";
+import { useState } from "react";
+import { createArticleAPI } from "@/apis/article";
+import { useChannel } from "@/hooks/useChannel";
 const { Option } = Select;
 
 const Publish = () => {
   // 获取频道列表
-  const [channelList, setChannelList] = useState([]);
-
-  useEffect(() => {
-    // 封装函数 在函数内调用接口
-    const getChannelList = async () => {
-      const res = await getChannelAPI();
-      setChannelList(res.data.channels);
-    };
-    // 调用函数
-    getChannelList();
-  }, []);
-
+  const {channelList} = useChannel();
   // 提交表单
   const onFinish = (formValue) => {
     console.log(formValue);
-    if(imageList !== imageType) return message.warning('封面类型和图片不匹配')
+    if (imageList !== imageType) return message.warning("封面类型和图片不匹配");
     const { title, content, channel_id } = formValue;
     // 按照接口文档处理收集的表单数据
     const reqData = {
@@ -44,7 +34,7 @@ const Publish = () => {
       content,
       cover: {
         type: imageType, // 封面类型
-        images: imageList.map(item => item.response.data.url), // 图片列表
+        images: imageList.map((item) => item.response.data.url), // 图片列表
       },
       channel_id,
     };
@@ -59,10 +49,10 @@ const Publish = () => {
     setImageList(value.fileList);
   };
   // 切换图片封面类型
-  const [imageType,setImageType] = useState(0)
+  const [imageType, setImageType] = useState(0);
   const onTypeChange = (e) => {
     console.log(e.target.value);
-    setImageType(e.target.value)
+    setImageType(e.target.value);
   };
   return (
     <div className="publish">
@@ -114,19 +104,20 @@ const Publish = () => {
             {/* listType选择文件的外观
               showUploadList 控制上传列表
              */}
-             {imageType > 0 &&  <Upload
-              listType="picture-card"
-              showUploadList
-              action={"http://geek.itheima.net/v1_0/upload "}
-              name="image"
-              onChange={onChange}
-              maxCount={imageType}
-            >
-              <div style={{ margin: 8 }}>
-                <PlusOutlined />
-              </div>
-            </Upload>}
-
+            {imageType > 0 && (
+              <Upload
+                listType="picture-card"
+                showUploadList
+                action={"http://geek.itheima.net/v1_0/upload "}
+                name="image"
+                onChange={onChange}
+                maxCount={imageType}
+              >
+                <div style={{ margin: 8 }}>
+                  <PlusOutlined />
+                </div>
+              </Upload>
+            )}
           </Form.Item>
           <Form.Item
             label="内容"
