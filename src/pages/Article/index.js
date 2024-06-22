@@ -23,12 +23,10 @@ const { RangePicker } = DatePicker;
 
 const Article = () => {
   const { channelList } = useChannel();
-
-  
   const status = {
-    1:<Tag color="warning">待审核</Tag>,
-    2:<Tag color="success">审核通过</Tag>
-  }
+    1: <Tag color="warning">待审核</Tag>,
+    2: <Tag color="success">审核通过</Tag>,
+  };
   const columns = [
     {
       title: "封面",
@@ -94,17 +92,41 @@ const Article = () => {
     },
   ];
 
+  // 筛选功能
+  const [reqData, setReqData] = useState({
+    status: "",
+    channel_id: "",
+    begin_pubdate: "",
+    end_pubdate: "",
+    page: 1,
+    per_page: 4,
+  });
+
   // 获取文章列表
   const [list, setList] = useState([]);
   const [count, setCount] = useState(0);
   useEffect(() => {
     async function getList() {
-      const res = await getArticleAPI();
+      const res = await getArticleAPI(reqData);
       setList(res.data.results);
-      setCount(res.data.total_count)
+      setCount(res.data.total_count);
     }
     getList();
-  }, []);
+  }, [reqData]);
+
+  // 获取筛选数据
+  const onFinish = (formValue) =>{
+    console.log(formValue);
+    setReqData({
+      ...reqData,
+      channel_id:formValue.channel_id,
+      status:formValue.status,
+      begin_pubdate:formValue.date[0].format('YYYY-MM-DD'),
+      end_pubdate:formValue.date[1].format('YYYY-MM-DD')
+    })
+  }
+
+
   return (
     <div>
       <Card
@@ -118,7 +140,7 @@ const Article = () => {
         }
         style={{ marginBottom: 20 }}
       >
-        <Form initialValues={{ status: "" }}>
+        <Form initialValues={{ status: "" }} onFinish={onFinish}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={""}>全部</Radio>
