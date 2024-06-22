@@ -16,7 +16,7 @@ import "./index.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticleAPI, getArticleById } from "@/apis/article";
+import { createArticleAPI, getArticleById,updateArticleAPI } from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 const { Option } = Select;
 
@@ -36,13 +36,29 @@ const Publish = () => {
       content,
       cover: {
         type: imageType, // 封面类型
-        images: imageList.map((item) => item.response.data.url), // 图片列表
+        images: imageList.map((item) => {
+          // 图片列表
+          if (item.response) {
+            return item.response.data.url;
+          } else {
+            return item.url;
+          }
+        }),
       },
       channel_id,
     };
 
     // 调用接口提交
-    createArticleAPI(reqData);
+    // 处理调用不同的接口
+    if (articleId) {
+      // 更新接口
+      updateArticleAPI({
+        ...reqData,
+        id:articleId
+      })
+    } else {
+      createArticleAPI(reqData);
+    }
   };
   // 图片上传方法
   const [imageList, setImageList] = useState([]);
@@ -80,7 +96,7 @@ const Publish = () => {
         })
       );
     }
-    if(articleId) {
+    if (articleId) {
       getArticleDetail();
     }
   }, [articleId, form]);
