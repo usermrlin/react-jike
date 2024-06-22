@@ -115,17 +115,25 @@ const Article = () => {
   }, [reqData]);
 
   // 获取筛选数据
-  const onFinish = (formValue) =>{
+  const onFinish = (formValue) => {
     console.log(formValue);
     setReqData({
       ...reqData,
-      channel_id:formValue.channel_id,
-      status:formValue.status,
-      begin_pubdate:formValue.date[0].format('YYYY-MM-DD'),
-      end_pubdate:formValue.date[1].format('YYYY-MM-DD')
-    })
-  }
+      channel_id: formValue.channel_id,
+      status: formValue.status,
+      begin_pubdate: formValue.date[0].format("YYYY-MM-DD"),
+      end_pubdate: formValue.date[1].format("YYYY-MM-DD"),
+    });
+  };
 
+  // 分页
+  const onPageChange = (page) => {
+    console.log(page);
+    setReqData({
+      ...reqData,
+      page,
+    });
+  };
 
   return (
     <div>
@@ -173,7 +181,13 @@ const Article = () => {
       </Card>
       {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-        <Table rowKey="id" columns={columns} dataSource={list} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={list}
+          pagination={{ total: count, pageSize: reqData.per_page,onChange:onPageChange }}
+
+        />
       </Card>
     </div>
   );
