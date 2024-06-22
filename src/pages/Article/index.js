@@ -22,6 +22,7 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Article = () => {
+  const navigate = useNavigate()
   const { channelList } = useChannel();
   const status = {
     1: <Tag color="warning">待审核</Tag>,
@@ -72,7 +73,12 @@ const Article = () => {
       render: (data) => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => navigate(`/publish?id=${data.id}`)}
+            />
             <Popconfirm
               title="删除文章"
               description="确认要删除当前文章吗?"
