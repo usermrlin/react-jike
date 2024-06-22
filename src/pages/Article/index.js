@@ -23,6 +23,12 @@ const { RangePicker } = DatePicker;
 
 const Article = () => {
   const { channelList } = useChannel();
+
+  
+  const status = {
+    1:<Tag color="warning">待审核</Tag>,
+    2:<Tag color="success">审核通过</Tag>
+  }
   const columns = [
     {
       title: "封面",
@@ -45,7 +51,7 @@ const Article = () => {
       // data - 后端返回的状态status 根据它做条件渲染
       // data === 1 => 待审核
       // data === 2 => 审核通过
-      render: (data) => [data],
+      render: (data) => status[data],
     },
     {
       title: "发布时间",
@@ -85,21 +91,6 @@ const Article = () => {
           </Space>
         );
       },
-    },
-  ];
-  // 准备表格body数据
-  const data = [
-    {
-      id: "8218",
-      comment_count: 0,
-      cover: {
-        images: [],
-      },
-      like_count: 0,
-      pubdate: "2019-03-11 09:00:00",
-      read_count: 2,
-      status: 2,
-      title: "wkwebview离线化加载h5资源解决方案",
     },
   ];
 

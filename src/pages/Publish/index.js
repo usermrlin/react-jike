@@ -23,10 +23,11 @@ const { Option } = Select;
 const Publish = () => {
   // 获取频道列表
   const {channelList} = useChannel();
+
   // 提交表单
   const onFinish = (formValue) => {
     console.log(formValue);
-    if (imageList !== imageType) return message.warning("封面类型和图片不匹配");
+    if (imageList.length !== imageType) return message.warning("封面类型和图片不匹配");
     const { title, content, channel_id } = formValue;
     // 按照接口文档处理收集的表单数据
     const reqData = {
